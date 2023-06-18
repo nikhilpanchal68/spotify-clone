@@ -1,6 +1,3 @@
-console.log("Welcome to Spotify");
-
-
 //Initialize the variable
 let songIndex = 0;
 let audioElement = new Audio('songs/1.mp3');
@@ -11,7 +8,10 @@ let songItems = Array.from(document.getElementsByClassName('songItem'));
 let songName = document.getElementsByClassName('songName');
 let songItemPlay = document.getElementsByClassName('songItemPlay');
 let masterSongName = document.getElementById('masterSongName');
-
+//page loader
+$(window).load(function() {
+    $('#loading').hide();
+});
 let songs = [
     { songName: "Let me love you", filePath: "songs/1.mp3", coverPath: "covers/1.jpg" },
     { songName: "Apna Bana Le", filePath: "songs/2.mp3", coverPath: "covers/2.jpg" },
@@ -24,17 +24,12 @@ let songs = [
     { songName: "Save Your Tears", filePath: "songs/9.mp3", coverPath: "covers/9.jpg" },
     { songName: "Tujhe Kitna Chahne", filePath: "songs/10.mp3", coverPath: "covers/10.jpg" },
 ];
-
 songItems.forEach((element, i) => {
     // console.log(element,i)
     element.getElementsByTagName('img')[0].src = songs[i].coverPath;
     element.getElementsByClassName('songName')[0].innerText = songs[i].songName;
 });
-
-
 // audioElement.play()
-
-
 // Handle play / pause click
 masterPlay.addEventListener('click', () => {
     if (audioElement.paused || audioElement.currentTime <= 0) {
@@ -50,25 +45,21 @@ masterPlay.addEventListener('click', () => {
         gif.style.opacity = 0;
     }
 })
-
 //Listen to events
 audioElement.addEventListener('timeupdate', () => {
     //update seekbar
     progress = parseInt((audioElement.currentTime / audioElement.duration) * 100);
     myProgressBar.value = progress;
 })
-
 myProgressBar.addEventListener('change', () => {
     audioElement.currentTime = myProgressBar.value * audioElement.duration / 100;
 })
-
 const makeAllPlays = () => {
     Array.from(songItemPlay).forEach((element) => {
         element.classList.remove('fa-pause-circle');
         element.classList.add('fa-play-circle');
     })
 }
-
 Array.from(songItemPlay).forEach((element) => {
     element.addEventListener('click', (e) => {
         makeAllPlays();
@@ -84,7 +75,6 @@ Array.from(songItemPlay).forEach((element) => {
         gif.style.opacity = 1;
     })
 })
-
 document.getElementById('next').addEventListener('click', () => {
     if (songIndex >= 9) {
         songIndex = 0;
@@ -100,7 +90,6 @@ document.getElementById('next').addEventListener('click', () => {
     gif.style.opacity = 1;
     masterSongName.innerText = songs[songIndex].songName
 })
-
 document.getElementById('previous').addEventListener('click', () => {
     if (songIndex <= 0) {
         songIndex = 9;
@@ -116,4 +105,3 @@ document.getElementById('previous').addEventListener('click', () => {
     gif.style.opacity = 1;
     masterSongName.innerText = songs[songIndex].songName
 })
-
